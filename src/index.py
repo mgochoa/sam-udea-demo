@@ -1,19 +1,16 @@
-# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
-# SPDX-License-Identifier: MIT-0
-
 import boto3
 from datetime import datetime
 import time
 
 TABLE_NAME = 'VisitorData'
-dynamodb_client = boto3.client('dynamodb')
-table = dynamodb_client.Table(TABLE_NAME)
+dynamodb = boto3.resource('dynamodb')
+table = dynamodb.Table(TABLE_NAME)
 
 
 def get_unix_time():
     """Returns current unix timestamp"""
     d = datetime.utcnow()
-    return time.mktime(d.timetuple())
+    return str(time.mktime(d.timetuple()))
 
 
 def add_visit(user_agent):
@@ -22,7 +19,7 @@ def add_visit(user_agent):
         'id': visit_id,
         'user_agent': user_agent
     }
-    dynamodb_client.put_item(TableName=TABLE_NAME, Item=item)
+    table.put_item(Item=item)
 
 
 def get_total_count():
@@ -30,9 +27,12 @@ def get_total_count():
 
 
 def lambda_handler(event, context):
-    add_visit(context['identity'].get('userAgent'))
+    add_visit(event['requestContext']['identity'].get('userAgent'))
     total_count = get_total_count()
     return {
         'statusCode': 200,
-        'body': f'Visited {total_count} times'
+        'headers': {
+            'content-type': 'text/html'
+        },
+        'body': f'<h1>Visited {total_count} times</h1>'
     }

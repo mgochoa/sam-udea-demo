@@ -1,8 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="PYTHON_MODULE" version="4">
   <component name="NewModuleRootManager">
-    <content url="file://$MODULE_DIR$" />
-    <orderEntry type="inheritedJdk" />
+    <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/.aws-sam" />
+      <excludeFolder url="file://$MODULE_DIR$/venv" />
+    </content>
+    <orderEntry type="jdk" jdkName="Python 3.9 (apigw-lambda-dynamodb)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+  <component name="deploySettings">
+    <option name="samConfigs">
+      <map>
+        <entry key="template.yaml">
+          <value>
+            <DeploySamConfig>
+              <option name="autoExecute" value="true" />
+              <option name="bucketName" value="sam-deploys-274304242375" />
+              <option name="enabledCapabilities">
+                <list>
+                  <option value="IAM" />
+                  <option value="NAMED_IAM" />
+                </list>
+              </option>
+              <option name="stackName" value="sam-udea-demo" />
+            </DeploySamConfig>
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </module>
